@@ -1,0 +1,784 @@
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN CourseProject.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE CourseProject.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     $mod51 
+0000                   2     ORG 0x0000
+0000 758000            3     mov P0, #0
+0003 759000            4     mov P1, #0
+0006 75A000            5     mov P2, #0
+0009 75B000            6     mov P3, #0
+000C 9143              7     call CLEAR_INDICATORS
+                       8     
+000E                   9             CHECK_KEYS:
+000E                  10                     check_key1:
+000E 759000           11                             mov P1, #0
+0011 309302           12                             jnb P1.3, check_key2 ; if key disabled
+0014 21AA             13                             jmp START_TIMER_1
+0016                  14                     check_key2:
+0016 759001           15                             mov P1, #1
+0019 309302           16                             jnb P1.3, check_key3 ; if key disabled
+001C 21D0             17                             jmp START_TIMER_2
+001E                  18                     check_key3:
+001E 759002           19                             mov P1, #2
+0021 309302           20                             jnb P1.3, check_key4 ; if key disabled
+0024 21FE             21                             jmp START_TIMER_3
+0026                  22                     check_key4:
+0026 759003           23                             mov P1, #3
+0029 309302           24                             jnb P1.3, check_key5 ; if key disabled
+002C 4134             25                             jmp START_TIMER_4
+002E                  26                     check_key5:
+002E 759004           27                             mov P1, #4
+0031 309302           28                             jnb P1.3, check_key6 ; if key disabled
+0034 4172             29                             jmp START_TIMER_5
+0036                  30                     check_key6:
+0036 759005           31                             mov P1, #5
+0039 309302           32                             jnb P1.3, check_key7 ; if key disabled
+003C 41B8             33                             jmp START_TIMER_6
+003E                  34                     check_key7:
+003E 759006           35                             mov P1, #6
+0041 309302           36                             jnb P1.3, check_key8 ; if key disabled
+0044 6106             37                             jmp START_TIMER_7
+0046                  38                     check_key8:
+0046 759007           39                             mov P1, #7
+0049 3093C2           40                             jnb P1.3, check_key1 ; if key disabled
+004C 615C             41                             jmp START_TIMER_8                                       
+004E 80BE             42                     jmp CHECK_KEYS  
+                      43             
+0050                  44             CHECK_KEYS_ONCE:                                
+0050                  45                     check_key1_once:
+0050 759000           46                             mov P1, #0
+0053 309304           47                             jnb P1.3, check_key2_once ; if key disabled (==0)
+0056 B80149           48                             cjne R0, #1, START_TIMER_1_BRIDGE       ; if timer 1 not running (=
+                             =0)  
+0059 22               49                             ret ; return to previous timer 1
+005A                  50                     check_key2_once:
+005A 759001           51                             mov P1, #1
+005D 309304           52                             jnb P1.3, check_key3_once ; if key disabled (==0)
+0060 B90144           53                             cjne R1, #1, START_TIMER_2_BRIDGE       ; if timer 2 not running (=
+                             =0) 
+0063 22               54                             ret ; return to previous timer 2                        
+0064                  55                     check_key3_once:
+0064 759002           56                             mov P1, #2
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     2
+
+0067 309304           57                             jnb P1.3, check_key4_once ; if key disabled (==0)
+006A BA013F           58                             cjne R2, #1, START_TIMER_3_BRIDGE       ; if timer 3 not running (=
+                             =0) 
+006D 22               59                             ret ; return to previous timer 3
+006E                  60                     check_key4_once:
+006E 759003           61                             mov P1, #3
+0071 309304           62                             jnb P1.3, check_key5_once ; if key disabled (==0)
+0074 BB013A           63                             cjne R3, #1, START_TIMER_4_BRIDGE       ; if timer 4 not running (=
+                             =0) 
+0077 22               64                             ret ; return to previous timer 4
+0078                  65                     check_key5_once:
+0078 759004           66                             mov P1, #4
+007B 309304           67                             jnb P1.3, check_key6_once ; if key disabled (==0)
+007E BC0135           68                             cjne R4, #1, START_TIMER_5_BRIDGE       ; if timer 5 not running (=
+                             =0) 
+0081 22               69                             ret ; return to previous timer 5
+0082                  70                     check_key6_once:
+0082 759005           71                             mov P1, #5
+0085 309304           72                             jnb P1.3, check_key7_once ; if key disabled (==0)
+0088 BD0130           73                             cjne R5, #1, START_TIMER_6_BRIDGE       ; if timer 6 not running (=
+                             =0) 
+008B 22               74                             ret ; return to previous timer 6
+008C                  75                     check_key7_once:
+008C 759006           76                             mov P1, #6
+008F 309304           77                             jnb P1.3, check_key8_once ; if key disabled (==0)
+0092 BE012B           78                             cjne R6, #1, START_TIMER_7_BRIDGE       ; if timer 7 not running (=
+                             =0) 
+0095 22               79                             ret ; return to previous timer 7
+0096                  80                     check_key8_once:
+0096 759007           81                             mov P1, #7
+0099 3093B4           82                             jnb P1.3, check_key1_once ; if key disabled (==0)
+009C BF0126           83                             cjne R7, #1, START_TIMER_8_BRIDGE       ; if timer 8 not running (=
+                             =0) 
+009F 22               84                             ret ; return to previous timer 8                                   
+                                  
+00A0 80AE             85                     jmp CHECK_KEYS_ONCE
+                      86     
+00A2                  87             START_TIMER_1_BRIDGE:
+00A2 758107           88                     mov sp, #0x07 ; clear stack
+00A5 21AA             89                     jmp START_TIMER_1
+00A7                  90             START_TIMER_2_BRIDGE:
+00A7 758107           91                     mov sp, #0x07 ; clear stack
+00AA 21D0             92                     jmp START_TIMER_2
+00AC                  93             START_TIMER_3_BRIDGE:
+00AC 758107           94                     mov sp, #0x07 ; clear stack
+00AF 21FE             95                     jmp START_TIMER_3
+00B1                  96             START_TIMER_4_BRIDGE:
+00B1 758107           97                     mov sp, #0x07 ; clear stack
+00B4 4134             98                     jmp START_TIMER_4
+00B6                  99             START_TIMER_5_BRIDGE:
+00B6 758107          100                     mov sp, #0x07 ; clear stack
+00B9 4172            101                     jmp START_TIMER_5
+00BB                 102             START_TIMER_6_BRIDGE:
+00BB 758107          103                     mov sp, #0x07 ; clear stack
+00BE 41B8            104                     jmp START_TIMER_6
+00C0                 105             START_TIMER_7_BRIDGE:
+00C0 758107          106                     mov sp, #0x07 ; clear stack
+00C3 6106            107                     jmp START_TIMER_7
+00C5                 108             START_TIMER_8_BRIDGE:
+00C5 758107          109                     mov sp, #0x07 ; clear stack
+00C8 615C            110                     jmp START_TIMER_8
+                     111             
+00CA                 112             SET_1:
+00CA 7580F9          113                     mov P0, #11111001b
+00CD 75A0FB          114                     mov P2, #11111011b
+00D0 22              115                     ret
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     3
+
+00D1                 116             SET_2:
+00D1 758024          117                     mov P0, #00100100b
+00D4 75A0FF          118                     mov P2, #11111111b
+00D7 22              119                     ret
+00D8                 120             SET_3:
+00D8 758070          121                     mov P0, #01110000b
+00DB 75A0FF          122                     mov P2, #11111111b
+00DE 22              123                     ret
+00DF                 124             SET_4:
+00DF 758019          125                     mov P0, #00011001b
+00E2 75A0FF          126                     mov P2, #11111111b
+00E5 22              127                     ret
+00E6                 128             SET_5:
+00E6 758012          129                     mov P0, #00010010b
+00E9 75A0FF          130                     mov P2, #11111111b
+00EC 22              131                     ret
+00ED                 132             SET_6:
+00ED 758002          133                     mov P0, #00000010b
+00F0 75A0FF          134                     mov P2, #11111111b
+00F3 22              135                     ret
+00F4                 136             SET_7:
+00F4 7580F8          137                     mov P0, #11111000b
+00F7 75A0FF          138                     mov P2, #11111111b
+00FA 22              139                     ret
+00FB                 140             SET_8:
+00FB 758000          141                     mov P0, #00000000b
+00FE 75A0FF          142                     mov P2, #11111111b
+0101 22              143                     ret
+0102                 144             SET_9:
+0102 758010          145                     mov P0, #00010000b
+0105 75A0FF          146                     mov P2, #11111111b
+0108 22              147                     ret
+0109                 148             SET_0:
+0109 7580C0          149                     mov P0, #11000000b
+010C 75A0DB          150                     mov P2, #11011011b
+010F 22              151                     ret
+0110                 152             SET_T:
+0110 7580FE          153                     mov P0, #11111110b
+0113 75A0ED          154                     mov P2, #11101101b
+0116 22              155                     ret
+0117                 156             SET_I:
+0117 7580F6          157                     mov P0, #11110110b
+011A 75A0ED          158                     mov P2, #11101101b
+011D 22              159                     ret
+011E                 160             SET_M:
+011E 7580C9          161                     mov P0, #11001001b
+0121 75A0FA          162                     mov P2, #11111010b
+0124 22              163                     ret
+0125                 164             SET_E:
+0125 758086          165                     mov P0, #10000110b
+0128 75A0FF          166                     mov P2, #11111111b
+012B 22              167                     ret
+012C                 168             SET_O:
+012C 7580C0          169                     mov P0, #11000000b
+012F 75A0FF          170                     mov P2, #11111111b
+0132 22              171                     ret
+0133                 172             SET_U:
+0133 7580C1          173                     mov P0, #11000001b
+0136 75A0FF          174                     mov P2, #11111111b
+0139 22              175                     ret
+013A                 176             SET_CLEAR:
+013A 7580FF          177                     mov P0, #11111111b
+013D 75A0FF          178                     mov P2, #11111111b
+0140 22              179                     ret
+                     180     
+0141                 181             WRITE_TO_1_INDICATOR:
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     4
+
+0141 C2B3            182                     clr P3.3
+0143 C2B4            183                     clr P3.4
+0145 319C            184                     call ACTIVATE_UPPER_INDICATORS
+0147 22              185                     ret
+0148                 186             WRITE_TO_2_INDICATOR:
+0148 D2B3            187                     setb P3.3
+014A C2B4            188                     clr P3.4
+014C 319C            189                     call ACTIVATE_UPPER_INDICATORS
+014E 22              190                     ret
+014F                 191             WRITE_TO_3_INDICATOR:
+014F C2B3            192                     clr P3.3
+0151 D2B4            193                     setb P3.4
+0153 319C            194                     call ACTIVATE_UPPER_INDICATORS
+0155 22              195                     ret
+0156                 196             WRITE_TO_4_INDICATOR:
+0156 D2B3            197                     setb P3.3
+0158 D2B4            198                     setb P3.4
+015A 319C            199                     call ACTIVATE_UPPER_INDICATORS
+015C 22              200                     ret
+015D                 201             WRITE_TO_5_INDICATOR:
+015D C2B3            202                     clr P3.3
+015F C2B4            203                     clr P3.4
+0161 C2B5            204                     clr P3.5
+0163 31A3            205                     call ACTIVATE_LOWER_INDICATORS
+0165 22              206                     ret
+0166                 207             WRITE_TO_6_INDICATOR:
+0166 D2B3            208                     setb P3.3
+0168 C2B4            209                     clr P3.4
+016A C2B5            210                     clr P3.5
+016C 31A3            211                     call ACTIVATE_LOWER_INDICATORS
+016E 22              212                     ret
+016F                 213             WRITE_TO_7_INDICATOR:
+016F C2B3            214                     clr P3.3
+0171 D2B4            215                     setb P3.4
+0173 C2B5            216                     clr P3.5
+0175 31A3            217                     call ACTIVATE_LOWER_INDICATORS
+0177 22              218                     ret
+0178                 219             WRITE_TO_8_INDICATOR:
+0178 D2B3            220                     setb P3.3
+017A D2B4            221                     setb P3.4
+017C C2B5            222                     clr P3.5
+017E 31A3            223                     call ACTIVATE_LOWER_INDICATORS
+0180 22              224                     ret
+0181                 225             WRITE_TO_9_INDICATOR:
+0181 C2B3            226                     clr P3.3
+0183 C2B4            227                     clr P3.4
+0185 D2B5            228                     setb P3.5
+0187 31A3            229                     call ACTIVATE_LOWER_INDICATORS
+0189 22              230                     ret
+018A                 231             WRITE_TO_10_INDICATOR:
+018A D2B3            232                     setb P3.3
+018C C2B4            233                     clr P3.4
+018E D2B5            234                     setb P3.5
+0190 31A3            235                     call ACTIVATE_LOWER_INDICATORS
+0192 22              236                     ret
+0193                 237             WRITE_TO_11_INDICATOR:
+0193 C2B3            238                     clr P3.3
+0195 D2B4            239                     setb P3.4
+0197 D2B5            240                     setb P3.5
+0199 31A3            241                     call ACTIVATE_LOWER_INDICATORS
+019B 22              242                     ret
+019C                 243             ACTIVATE_UPPER_INDICATORS:
+019C C2B6            244                     clr P3.6
+019E D2B6            245                     setb P3.6
+01A0 C2B6            246                     clr P3.6
+01A2 22              247                     ret
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     5
+
+01A3                 248             ACTIVATE_LOWER_INDICATORS:
+01A3 C2B7            249                     clr P3.7
+01A5 D2B7            250                     setb P3.7
+01A7 C2B7            251                     clr P3.7
+01A9 22              252                     ret
+                     253     
+01AA                 254             START_TIMER_1:
+                     255                     ; set boolean that the timer is already started
+01AA 7900            256                     mov R1, #0
+01AC 7A00            257                     mov R2, #0
+01AE 7B00            258                     mov R3, #0
+01B0 7C00            259                     mov R4, #0
+01B2 7D00            260                     mov R5, #0
+01B4 7E00            261                     mov R6, #0
+01B6 7F00            262                     mov R7, #0
+01B8 7801            263                     mov R0, #1
+01BA 9160            264                     call SET_AND_WRITE_ZERO ; reset time
+01BC 1150            265                     call CHECK_KEYS_ONCE
+01BE 11CA            266                     call SET_1                                
+01C0 3148            267                     call WRITE_TO_2_INDICATOR ;     show 1 minute
+01C2 1150            268                     call CHECK_KEYS_ONCE                                    
+01C4 3109            269                     call SET_0                                
+01C6 3148            270                     call WRITE_TO_2_INDICATOR ;     show 0 minute
+01C8 1150            271                     call CHECK_KEYS_ONCE
+01CA 71BA            272                     call COUNTDOWN_3_INDICATOR ; show seconds                               
+01CC 9154            273                     call FLASHING_TIME_OUT ; time out                                          
+                                  
+01CE 80DA            274                     jmp START_TIMER_1
+                     275     
+01D0                 276             START_TIMER_2:
+                     277                     ; set boolean that the timer is already started
+01D0 7800            278                     mov R0, #0
+01D2 7A00            279                     mov R2, #0
+01D4 7B00            280                     mov R3, #0
+01D6 7C00            281                     mov R4, #0
+01D8 7D00            282                     mov R5, #0
+01DA 7E00            283                     mov R6, #0
+01DC 7F00            284                     mov R7, #0
+01DE 7901            285                     mov R1, #1
+01E0 9160            286                     call SET_AND_WRITE_ZERO ; reset timer
+01E2 1150            287                     call CHECK_KEYS_ONCE
+01E4 11D1            288                     call SET_2
+01E6 3148            289                     call WRITE_TO_2_INDICATOR ;     show 2 minute
+01E8 1150            290                     call CHECK_KEYS_ONCE
+01EA 11CA            291                     call SET_1
+01EC 3148            292                     call WRITE_TO_2_INDICATOR ; show 1 minute
+01EE 1150            293                     call CHECK_KEYS_ONCE
+01F0 71BA            294                     call COUNTDOWN_3_INDICATOR ; show seconds
+01F2 3109            295                     call SET_0
+01F4 3148            296                     call WRITE_TO_2_INDICATOR ;     show 0 minute
+01F6 1150            297                     call CHECK_KEYS_ONCE
+01F8 71BA            298                     call COUNTDOWN_3_INDICATOR ; show seconds
+01FA 9154            299                     call FLASHING_TIME_OUT ; time out               
+01FC 80D2            300                     jmp START_TIMER_2
+                     301     
+01FE                 302             START_TIMER_3:
+                     303                     ; set boolean that the timer is already started
+01FE 7800            304                     mov R0, #0
+0200 7900            305                     mov R1, #0
+0202 7B00            306                     mov R3, #0
+0204 7C00            307                     mov R4, #0
+0206 7D00            308                     mov R5, #0
+0208 7E00            309                     mov R6, #0
+020A 7F00            310                     mov R7, #0
+020C 7A01            311                     mov R2, #1
+020E 9160            312                     call SET_AND_WRITE_ZERO ; reset timer
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     6
+
+0210 1150            313                     call CHECK_KEYS_ONCE
+0212 11D8            314                     call SET_3
+0214 3148            315                     call WRITE_TO_2_INDICATOR ; show 3 minute
+0216 1150            316                     call CHECK_KEYS_ONCE
+0218 11D1            317                     call SET_2
+021A 3148            318                     call WRITE_TO_2_INDICATOR ; show 2 minute
+021C 1150            319                     call CHECK_KEYS_ONCE
+021E 71BA            320                     call COUNTDOWN_3_INDICATOR ; show seconds
+0220 11CA            321                     call SET_1
+0222 3148            322                     call WRITE_TO_2_INDICATOR ; show 1 minute
+0224 1150            323                     call CHECK_KEYS_ONCE
+0226 71BA            324                     call COUNTDOWN_3_INDICATOR ; show seconds
+0228 3109            325                     call SET_0
+022A 3148            326                     call WRITE_TO_2_INDICATOR ; show 0 minute
+022C 1150            327                     call CHECK_KEYS_ONCE
+022E 71BA            328                     call COUNTDOWN_3_INDICATOR ; show seconds
+0230 9154            329                     call FLASHING_TIME_OUT ; time out               
+0232 80CA            330                     jmp START_TIMER_3
+                     331     
+0234                 332             START_TIMER_4:
+                     333                     ; set boolean that the timer is already started
+0234 7800            334                     mov R0, #0
+0236 7900            335                     mov R1, #0
+0238 7A00            336                     mov R2, #0
+023A 7C00            337                     mov R4, #0
+023C 7D00            338                     mov R5, #0
+023E 7E00            339                     mov R6, #0
+0240 7F00            340                     mov R7, #0
+0242 7B01            341                     mov R3, #1
+0244 9160            342                     call SET_AND_WRITE_ZERO ; reset timer
+0246 1150            343                     call CHECK_KEYS_ONCE
+0248 11DF            344                     call SET_4
+024A 3148            345                     call WRITE_TO_2_INDICATOR ; show 4 minute
+024C 1150            346                     call CHECK_KEYS_ONCE
+024E 11D8            347                     call SET_3
+0250 3148            348                     call WRITE_TO_2_INDICATOR ; show 3 minute
+0252 1150            349                     call CHECK_KEYS_ONCE
+0254 71BA            350                     call COUNTDOWN_3_INDICATOR ; show seconds
+0256 11D1            351                     call SET_2
+0258 3148            352                     call WRITE_TO_2_INDICATOR ; show 2 minute
+025A 1150            353                     call CHECK_KEYS_ONCE
+025C 71BA            354                     call COUNTDOWN_3_INDICATOR ; show seconds
+025E 11CA            355                     call SET_1
+0260 3148            356                     call WRITE_TO_2_INDICATOR ; show 1 minute
+0262 1150            357                     call CHECK_KEYS_ONCE
+0264 71BA            358                     call COUNTDOWN_3_INDICATOR ; show seconds
+0266 3109            359                     call SET_0
+0268 3148            360                     call WRITE_TO_2_INDICATOR ; show 0 minute
+026A 1150            361                     call CHECK_KEYS_ONCE
+026C 71BA            362                     call COUNTDOWN_3_INDICATOR ; show seconds
+026E 9154            363                     call FLASHING_TIME_OUT ; time out               
+0270 80C2            364                     jmp START_TIMER_4
+                     365     
+0272                 366             START_TIMER_5:
+                     367                     ; set boolean that the timer is already started
+0272 7800            368                     mov R0, #0
+0274 7900            369                     mov R1, #0
+0276 7A00            370                     mov R2, #0
+0278 7B00            371                     mov R3, #0
+027A 7D00            372                     mov R5, #0
+027C 7E00            373                     mov R6, #0
+027E 7F00            374                     mov R7, #0
+0280 7C01            375                     mov R4, #1
+0282 9160            376                     call SET_AND_WRITE_ZERO ; reset timer
+0284 1150            377                     call CHECK_KEYS_ONCE
+0286 11E6            378                     call SET_5
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     7
+
+0288 3148            379                     call WRITE_TO_2_INDICATOR ; show 5 minute
+028A 1150            380                     call CHECK_KEYS_ONCE
+028C 11DF            381                     call SET_4
+028E 3148            382                     call WRITE_TO_2_INDICATOR ; show 4 minute
+0290 1150            383                     call CHECK_KEYS_ONCE
+0292 71BA            384                     call COUNTDOWN_3_INDICATOR ; show seconds
+0294 11D8            385                     call SET_3
+0296 3148            386                     call WRITE_TO_2_INDICATOR ; show 3 minute
+0298 1150            387                     call CHECK_KEYS_ONCE
+029A 71BA            388                     call COUNTDOWN_3_INDICATOR ; show seconds
+029C 11D1            389                     call SET_2
+029E 3148            390                     call WRITE_TO_2_INDICATOR ; show 2 minute
+02A0 1150            391                     call CHECK_KEYS_ONCE
+02A2 71BA            392                     call COUNTDOWN_3_INDICATOR ; show seconds
+02A4 11CA            393                     call SET_1
+02A6 3148            394                     call WRITE_TO_2_INDICATOR ; show 1 minute
+02A8 1150            395                     call CHECK_KEYS_ONCE
+02AA 71BA            396                     call COUNTDOWN_3_INDICATOR ; show seconds
+02AC 3109            397                     call SET_0
+02AE 3148            398                     call WRITE_TO_2_INDICATOR ; show 0 minute
+02B0 1150            399                     call CHECK_KEYS_ONCE
+02B2 71BA            400                     call COUNTDOWN_3_INDICATOR ; show seconds
+02B4 9154            401                     call FLASHING_TIME_OUT ; time out               
+02B6 80BA            402                     jmp START_TIMER_5
+                     403     
+02B8                 404             START_TIMER_6:
+                     405                     ; set boolean that the timer is already started
+02B8 7800            406                     mov R0, #0
+02BA 7900            407                     mov R1, #0
+02BC 7A00            408                     mov R2, #0
+02BE 7B00            409                     mov R3, #0
+02C0 7C00            410                     mov R4, #0
+02C2 7E00            411                     mov R6, #0
+02C4 7F00            412                     mov R7, #0
+02C6 7D01            413                     mov R5, #1
+02C8 9160            414                     call SET_AND_WRITE_ZERO ; reset timer
+02CA 1150            415                     call CHECK_KEYS_ONCE
+02CC 11ED            416                     call SET_6
+02CE 3148            417                     call WRITE_TO_2_INDICATOR ; show 6 minute
+02D0 1150            418                     call CHECK_KEYS_ONCE
+02D2 11E6            419                     call SET_5
+02D4 3148            420                     call WRITE_TO_2_INDICATOR ; show 5 minute
+02D6 1150            421                     call CHECK_KEYS_ONCE
+02D8 71BA            422                     call COUNTDOWN_3_INDICATOR ; show seconds
+02DA 11DF            423                     call SET_4
+02DC 3148            424                     call WRITE_TO_2_INDICATOR ; show 4 minute
+02DE 1150            425                     call CHECK_KEYS_ONCE
+02E0 71BA            426                     call COUNTDOWN_3_INDICATOR ; show seconds
+02E2 11D8            427                     call SET_3
+02E4 3148            428                     call WRITE_TO_2_INDICATOR ; show 3 minute
+02E6 1150            429                     call CHECK_KEYS_ONCE
+02E8 71BA            430                     call COUNTDOWN_3_INDICATOR ; show seconds
+02EA 11D1            431                     call SET_2
+02EC 3148            432                     call WRITE_TO_2_INDICATOR ; show 2 minute
+02EE 1150            433                     call CHECK_KEYS_ONCE
+02F0 71BA            434                     call COUNTDOWN_3_INDICATOR ; show seconds
+02F2 11CA            435                     call SET_1
+02F4 3148            436                     call WRITE_TO_2_INDICATOR ; show 1 minute
+02F6 1150            437                     call CHECK_KEYS_ONCE
+02F8 71BA            438                     call COUNTDOWN_3_INDICATOR ; show seconds
+02FA 3109            439                     call SET_0
+02FC 3148            440                     call WRITE_TO_2_INDICATOR ; show 0 minute
+02FE 1150            441                     call CHECK_KEYS_ONCE
+0300 71BA            442                     call COUNTDOWN_3_INDICATOR ; show seconds
+0302 9154            443                     call FLASHING_TIME_OUT ; time out               
+0304 80B2            444                     jmp START_TIMER_6
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     8
+
+                     445     
+0306                 446             START_TIMER_7:
+                     447                     ; set boolean that the timer is already started
+0306 7800            448                     mov R0, #0
+0308 7900            449                     mov R1, #0
+030A 7A00            450                     mov R2, #0
+030C 7B00            451                     mov R3, #0
+030E 7C00            452                     mov R4, #0
+0310 7D00            453                     mov R5, #0
+0312 7F00            454                     mov R7, #0
+0314 7E01            455                     mov R6, #1
+0316 9160            456                     call SET_AND_WRITE_ZERO ; reset timer
+0318 1150            457                     call CHECK_KEYS_ONCE
+031A 11F4            458                     call SET_7
+031C 3148            459                     call WRITE_TO_2_INDICATOR ; show 7 minute
+031E 1150            460                     call CHECK_KEYS_ONCE
+0320 11ED            461                     call SET_6
+0322 3148            462                     call WRITE_TO_2_INDICATOR ; show 6 minute
+0324 1150            463                     call CHECK_KEYS_ONCE
+0326 71BA            464                     call COUNTDOWN_3_INDICATOR ; show seconds
+0328 11E6            465                     call SET_5
+032A 3148            466                     call WRITE_TO_2_INDICATOR ; show 5 minute
+032C 1150            467                     call CHECK_KEYS_ONCE
+032E 71BA            468                     call COUNTDOWN_3_INDICATOR ; show seconds
+0330 11DF            469                     call SET_4
+0332 3148            470                     call WRITE_TO_2_INDICATOR ; show 4 minute
+0334 1150            471                     call CHECK_KEYS_ONCE
+0336 71BA            472                     call COUNTDOWN_3_INDICATOR ; show seconds
+0338 11D8            473                     call SET_3
+033A 3148            474                     call WRITE_TO_2_INDICATOR ; show 3 minute
+033C 1150            475                     call CHECK_KEYS_ONCE
+033E 71BA            476                     call COUNTDOWN_3_INDICATOR ; show seconds
+0340 11D1            477                     call SET_2
+0342 3148            478                     call WRITE_TO_2_INDICATOR ; show 2 minute
+0344 1150            479                     call CHECK_KEYS_ONCE
+0346 71BA            480                     call COUNTDOWN_3_INDICATOR ; show seconds
+0348 11CA            481                     call SET_1
+034A 3148            482                     call WRITE_TO_2_INDICATOR ; show 1 minute
+034C 1150            483                     call CHECK_KEYS_ONCE
+034E 71BA            484                     call COUNTDOWN_3_INDICATOR ; show seconds
+0350 3109            485                     call SET_0
+0352 3148            486                     call WRITE_TO_2_INDICATOR ; show 0 minute
+0354 1150            487                     call CHECK_KEYS_ONCE
+0356 71BA            488                     call COUNTDOWN_3_INDICATOR ; show seconds
+0358 9154            489                     call FLASHING_TIME_OUT ; time out               
+035A 80AA            490                     jmp START_TIMER_7
+                     491     
+                     492     
+035C                 493             START_TIMER_8:
+                     494                     ; set boolean that the timer is already started
+035C 7800            495                     mov R0, #0
+035E 7900            496                     mov R1, #0
+0360 7A00            497                     mov R2, #0
+0362 7B00            498                     mov R3, #0
+0364 7C00            499                     mov R4, #0
+0366 7D00            500                     mov R5, #0
+0368 7E00            501                     mov R6, #0
+036A 7F01            502                     mov R7, #1
+036C 9160            503                     call SET_AND_WRITE_ZERO ; reset timer
+036E 1150            504                     call CHECK_KEYS_ONCE
+0370 11FB            505                     call SET_8
+0372 3148            506                     call WRITE_TO_2_INDICATOR ; show 8 minute
+0374 1150            507                     call CHECK_KEYS_ONCE
+0376 11F4            508                     call SET_7
+0378 3148            509                     call WRITE_TO_2_INDICATOR ; show 7 minute
+037A 1150            510                     call CHECK_KEYS_ONCE
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE     9
+
+037C 71BA            511                     call COUNTDOWN_3_INDICATOR ; show seconds
+037E 11ED            512                     call SET_6
+0380 3148            513                     call WRITE_TO_2_INDICATOR ; show 6 minute
+0382 1150            514                     call CHECK_KEYS_ONCE
+0384 71BA            515                     call COUNTDOWN_3_INDICATOR ; show seconds
+0386 11E6            516                     call SET_5
+0388 3148            517                     call WRITE_TO_2_INDICATOR ; show 5 minute
+038A 1150            518                     call CHECK_KEYS_ONCE
+038C 71BA            519                     call COUNTDOWN_3_INDICATOR ; show seconds
+038E 11DF            520                     call SET_4
+0390 3148            521                     call WRITE_TO_2_INDICATOR ; show 4 minute
+0392 1150            522                     call CHECK_KEYS_ONCE
+0394 71BA            523                     call COUNTDOWN_3_INDICATOR ; show seconds
+0396 11D8            524                     call SET_3
+0398 3148            525                     call WRITE_TO_2_INDICATOR ; show 3 minute
+039A 1150            526                     call CHECK_KEYS_ONCE
+039C 71BA            527                     call COUNTDOWN_3_INDICATOR ; show seconds
+039E 11D1            528                     call SET_2
+03A0 3148            529                     call WRITE_TO_2_INDICATOR ; show 2 minute
+03A2 1150            530                     call CHECK_KEYS_ONCE
+03A4 71BA            531                     call COUNTDOWN_3_INDICATOR ; show seconds
+03A6 11CA            532                     call SET_1
+03A8 3148            533                     call WRITE_TO_2_INDICATOR ; show 1 minute
+03AA 1150            534                     call CHECK_KEYS_ONCE
+03AC 71BA            535                     call COUNTDOWN_3_INDICATOR ; show seconds
+03AE 3109            536                     call SET_0
+03B0 3148            537                     call WRITE_TO_2_INDICATOR ; show 0 minute
+03B2 1150            538                     call CHECK_KEYS_ONCE
+03B4 71BA            539                     call COUNTDOWN_3_INDICATOR ; show seconds
+03B6 9154            540                     call FLASHING_TIME_OUT ; time out               
+03B8 80A2            541                     jmp START_TIMER_8
+                     542     
+03BA                 543             COUNTDOWN_3_INDICATOR:
+03BA 11E6            544                     call SET_5
+03BC 314F            545                     call WRITE_TO_3_INDICATOR
+03BE 1150            546                     call CHECK_KEYS_ONCE
+03C0 71EB            547                     call COUNTDOWN_4_INDICATOR
+03C2 11DF            548                     call SET_4
+03C4 314F            549                     call WRITE_TO_3_INDICATOR
+03C6 1150            550                     call CHECK_KEYS_ONCE
+03C8 71EB            551                     call COUNTDOWN_4_INDICATOR
+03CA 11D8            552                     call SET_3
+03CC 314F            553                     call WRITE_TO_3_INDICATOR
+03CE 1150            554                     call CHECK_KEYS_ONCE
+03D0 71EB            555                     call COUNTDOWN_4_INDICATOR
+03D2 11D1            556                     call SET_2
+03D4 314F            557                     call WRITE_TO_3_INDICATOR
+03D6 1150            558                     call CHECK_KEYS_ONCE
+03D8 71EB            559                     call COUNTDOWN_4_INDICATOR
+03DA 11CA            560                     call SET_1
+03DC 314F            561                     call WRITE_TO_3_INDICATOR
+03DE 1150            562                     call CHECK_KEYS_ONCE
+03E0 71EB            563                     call COUNTDOWN_4_INDICATOR
+03E2 3109            564                     call SET_0
+03E4 314F            565                     call WRITE_TO_3_INDICATOR
+03E6 1150            566                     call CHECK_KEYS_ONCE
+03E8 71EB            567                     call COUNTDOWN_4_INDICATOR
+03EA 22              568                     ret
+                     569     
+03EB                 570             COUNTDOWN_4_INDICATOR:
+03EB 3102            571                     call SET_9
+03ED 3156            572                     call WRITE_TO_4_INDICATOR
+03EF 1150            573                     call CHECK_KEYS_ONCE
+03F1 11FB            574                     call SET_8
+03F3 3156            575                     call WRITE_TO_4_INDICATOR
+03F5 1150            576                     call CHECK_KEYS_ONCE
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE    10
+
+03F7 11F4            577                     call SET_7
+03F9 3156            578                     call WRITE_TO_4_INDICATOR
+03FB 1150            579                     call CHECK_KEYS_ONCE
+03FD 11ED            580                     call SET_6
+03FF 3156            581                     call WRITE_TO_4_INDICATOR
+0401 1150            582                     call CHECK_KEYS_ONCE
+0403 11E6            583                     call SET_5
+0405 3156            584                     call WRITE_TO_4_INDICATOR
+0407 1150            585                     call CHECK_KEYS_ONCE
+0409 11DF            586                     call SET_4
+040B 3156            587                     call WRITE_TO_4_INDICATOR
+040D 1150            588                     call CHECK_KEYS_ONCE
+040F 11D8            589                     call SET_3
+0411 3156            590                     call WRITE_TO_4_INDICATOR
+0413 1150            591                     call CHECK_KEYS_ONCE
+0415 11D1            592                     call SET_2
+0417 3156            593                     call WRITE_TO_4_INDICATOR
+0419 1150            594                     call CHECK_KEYS_ONCE
+041B 11CA            595                     call SET_1
+041D 3156            596                     call WRITE_TO_4_INDICATOR
+041F 1150            597                     call CHECK_KEYS_ONCE
+0421 3109            598                     call SET_0
+0423 3156            599                     call WRITE_TO_4_INDICATOR
+0425 1150            600                     call CHECK_KEYS_ONCE
+0427 22              601                     ret
+                     602     
+0428                 603             SHOW_TIME_OUT:
+0428 3110            604                     call SET_T
+042A 315D            605                     call WRITE_TO_5_INDICATOR
+042C 3193            606                     call WRITE_TO_11_INDICATOR
+042E 3117            607                     call SET_I
+0430 3166            608                     call WRITE_TO_6_INDICATOR
+0432 311E            609                     call SET_M
+0434 316F            610                     call WRITE_TO_7_INDICATOR
+0436 3125            611                     call SET_E
+0438 3178            612                     call WRITE_TO_8_INDICATOR
+043A 312C            613                     call SET_O
+043C 3181            614                     call WRITE_TO_9_INDICATOR
+043E 3133            615                     call SET_U
+0440 318A            616                     call WRITE_TO_10_INDICATOR
+0442 22              617                     ret
+                     618     
+0443                 619             CLEAR_INDICATORS:
+0443 313A            620                     call SET_CLEAR
+0445 315D            621                     call WRITE_TO_5_INDICATOR
+0447 3166            622                     call WRITE_TO_6_INDICATOR
+0449 316F            623                     call WRITE_TO_7_INDICATOR
+044B 3178            624                     call WRITE_TO_8_INDICATOR
+044D 3181            625                     call WRITE_TO_9_INDICATOR
+044F 318A            626                     call WRITE_TO_10_INDICATOR
+0451 3193            627                     call WRITE_TO_11_INDICATOR
+0453 22              628                     ret
+                     629     
+0454                 630             FLASHING_TIME_OUT:
+0454 9128            631                     call SHOW_TIME_OUT
+0456 9143            632                     call CLEAR_INDICATORS
+0458 9128            633                     call SHOW_TIME_OUT
+045A 9143            634                     call CLEAR_INDICATORS
+045C 9128            635                     call SHOW_TIME_OUT
+045E 9143            636                     call CLEAR_INDICATORS
+                     637     
+0460                 638             SET_AND_WRITE_ZERO:
+0460 3109            639                     call SET_0
+0462 3141            640                     call WRITE_TO_1_INDICATOR
+0464 3148            641                     call WRITE_TO_2_INDICATOR
+0466 314F            642                     call WRITE_TO_3_INDICATOR
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE    11
+
+0468 3156            643                     call WRITE_TO_4_INDICATOR
+046A 22              644                     ret 
+                     645                       
+046B                 646     DELAY_1S: ; 1s delay subroutine
+046B 79FF            647             mov R1, #255
+046D                 648     C1:
+046D D9FE            649             djnz R1, $
+046F 22              650             ret
+                     651     
+                     652     END
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE    12
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                    T Y P E  V A L U E   ATTRIBUTES
+
+ACTIVATE_LOWER_INDICATORS  C ADDR   01A3H   A   
+ACTIVATE_UPPER_INDICATORS  C ADDR   019CH   A   
+C1. . . . . . . . . . . .  C ADDR   046DH   A   
+CHECK_KEY1. . . . . . . .  C ADDR   000EH   A   
+CHECK_KEY1_ONCE . . . . .  C ADDR   0050H   A   
+CHECK_KEY2. . . . . . . .  C ADDR   0016H   A   
+CHECK_KEY2_ONCE . . . . .  C ADDR   005AH   A   
+CHECK_KEY3. . . . . . . .  C ADDR   001EH   A   
+CHECK_KEY3_ONCE . . . . .  C ADDR   0064H   A   
+CHECK_KEY4. . . . . . . .  C ADDR   0026H   A   
+CHECK_KEY4_ONCE . . . . .  C ADDR   006EH   A   
+CHECK_KEY5. . . . . . . .  C ADDR   002EH   A   
+CHECK_KEY5_ONCE . . . . .  C ADDR   0078H   A   
+CHECK_KEY6. . . . . . . .  C ADDR   0036H   A   
+CHECK_KEY6_ONCE . . . . .  C ADDR   0082H   A   
+CHECK_KEY7. . . . . . . .  C ADDR   003EH   A   
+CHECK_KEY7_ONCE . . . . .  C ADDR   008CH   A   
+CHECK_KEY8. . . . . . . .  C ADDR   0046H   A   
+CHECK_KEY8_ONCE . . . . .  C ADDR   0096H   A   
+CHECK_KEYS. . . . . . . .  C ADDR   000EH   A   
+CHECK_KEYS_ONCE . . . . .  C ADDR   0050H   A   
+CLEAR_INDICATORS. . . . .  C ADDR   0443H   A   
+COUNTDOWN_3_INDICATOR . .  C ADDR   03BAH   A   
+COUNTDOWN_4_INDICATOR . .  C ADDR   03EBH   A   
+DELAY_1S. . . . . . . . .  C ADDR   046BH   A   
+FLASHING_TIME_OUT . . . .  C ADDR   0454H   A   
+P0. . . . . . . . . . . .  D ADDR   0080H   A   
+P1. . . . . . . . . . . .  D ADDR   0090H   A   
+P2. . . . . . . . . . . .  D ADDR   00A0H   A   
+P3. . . . . . . . . . . .  D ADDR   00B0H   A   
+SET_0 . . . . . . . . . .  C ADDR   0109H   A   
+SET_1 . . . . . . . . . .  C ADDR   00CAH   A   
+SET_2 . . . . . . . . . .  C ADDR   00D1H   A   
+SET_3 . . . . . . . . . .  C ADDR   00D8H   A   
+SET_4 . . . . . . . . . .  C ADDR   00DFH   A   
+SET_5 . . . . . . . . . .  C ADDR   00E6H   A   
+SET_6 . . . . . . . . . .  C ADDR   00EDH   A   
+SET_7 . . . . . . . . . .  C ADDR   00F4H   A   
+SET_8 . . . . . . . . . .  C ADDR   00FBH   A   
+SET_9 . . . . . . . . . .  C ADDR   0102H   A   
+SET_AND_WRITE_ZERO. . . .  C ADDR   0460H   A   
+SET_CLEAR . . . . . . . .  C ADDR   013AH   A   
+SET_E . . . . . . . . . .  C ADDR   0125H   A   
+SET_I . . . . . . . . . .  C ADDR   0117H   A   
+SET_M . . . . . . . . . .  C ADDR   011EH   A   
+SET_O . . . . . . . . . .  C ADDR   012CH   A   
+SET_T . . . . . . . . . .  C ADDR   0110H   A   
+SET_U . . . . . . . . . .  C ADDR   0133H   A   
+SHOW_TIME_OUT . . . . . .  C ADDR   0428H   A   
+SP. . . . . . . . . . . .  D ADDR   0081H   A   
+START_TIMER_1 . . . . . .  C ADDR   01AAH   A   
+START_TIMER_1_BRIDGE. . .  C ADDR   00A2H   A   
+START_TIMER_2 . . . . . .  C ADDR   01D0H   A   
+START_TIMER_2_BRIDGE. . .  C ADDR   00A7H   A   
+START_TIMER_3 . . . . . .  C ADDR   01FEH   A   
+START_TIMER_3_BRIDGE. . .  C ADDR   00ACH   A   
+START_TIMER_4 . . . . . .  C ADDR   0234H   A   
+START_TIMER_4_BRIDGE. . .  C ADDR   00B1H   A   
+START_TIMER_5 . . . . . .  C ADDR   0272H   A   
+START_TIMER_5_BRIDGE. . .  C ADDR   00B6H   A   
+A51 MACRO ASSEMBLER  COURSEPROJECT                                                        12/11/2022 15:30:37 PAGE    13
+
+START_TIMER_6 . . . . . .  C ADDR   02B8H   A   
+START_TIMER_6_BRIDGE. . .  C ADDR   00BBH   A   
+START_TIMER_7 . . . . . .  C ADDR   0306H   A   
+START_TIMER_7_BRIDGE. . .  C ADDR   00C0H   A   
+START_TIMER_8 . . . . . .  C ADDR   035CH   A   
+START_TIMER_8_BRIDGE. . .  C ADDR   00C5H   A   
+WRITE_TO_10_INDICATOR . .  C ADDR   018AH   A   
+WRITE_TO_11_INDICATOR . .  C ADDR   0193H   A   
+WRITE_TO_1_INDICATOR. . .  C ADDR   0141H   A   
+WRITE_TO_2_INDICATOR. . .  C ADDR   0148H   A   
+WRITE_TO_3_INDICATOR. . .  C ADDR   014FH   A   
+WRITE_TO_4_INDICATOR. . .  C ADDR   0156H   A   
+WRITE_TO_5_INDICATOR. . .  C ADDR   015DH   A   
+WRITE_TO_6_INDICATOR. . .  C ADDR   0166H   A   
+WRITE_TO_7_INDICATOR. . .  C ADDR   016FH   A   
+WRITE_TO_8_INDICATOR. . .  C ADDR   0178H   A   
+WRITE_TO_9_INDICATOR. . .  C ADDR   0181H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

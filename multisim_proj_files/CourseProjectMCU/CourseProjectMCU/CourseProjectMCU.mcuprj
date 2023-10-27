@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MCUProject Schema="67" Class="CMCUProject" Path="" PathAbs="" ProjectType="1">
+<ProjectFolders/>
+<ProjectFiles/>
+<BuildSettings>
+<MCUProjectBuildSettings Class="CMCUProjectBuildSettings" ToolGroupType="-1" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="&amp;ASCD:\CE\Computer_circuitry\MultisimWorkspace\CourseProject\CourseProjectMCU\CourseProjectMCU\" OutputPath="&amp;ASC.\" OutputPathAbs="&amp;ASCD:\CE\Computer_circuitry\MultisimWorkspace\CourseProject\CourseProjectMCU\CourseProjectMCU\" TargetFileType="6" SimPath="&amp;ASC..\..\..\..\KeilWorkspace\CourseProject\" SimPathAbs="&amp;ASCD:\CE\Computer_circuitry\KeilWorkspace\CourseProject\" SimFile="&amp;ASCCourseProject.hex" CodeLoadType="0"/>
+</BuildSettings>
+</MCUProject>
